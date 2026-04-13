@@ -10,7 +10,7 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "start": "node dist/src/index.js",
-    "test-client": "node dist/test-client.js"
+    "test-client": "npm run build && node dist/test-client.js"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.28.0",

@@ -99,16 +99,15 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            // Approve the PR
-            await github.rest.pulls.createReview({
+            // Welcome comment
+            await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              pull_number: context.issue.number,
-              event: 'APPROVE',
-              body: 'Welcome to the LifeAtlas Contributor Program! Your registration is valid. You are now part of the program. Proceed to Level 2 when ready.'
+              issue_number: context.issue.number,
+              body: '✅ **Welcome to the LifeAtlas Contributor Program!** Your registration is valid. You are now part of the program.\n\nNext steps:\n1. Run the LPI sandbox (`npm install && npm run build && npm run test-client`)\n2. Pick your track and start Level 2\n3. Check the README for your track-specific challenge\n\nSee you in the standups!'
             });
 
-            // Merge the PR
+            // Merge the PR directly (no approval needed — validation passed)
             await github.rest.pulls.merge({
               owner: context.repo.owner,
               repo: context.repo.repo,

@@ -2,16 +2,37 @@
 
 **Build AI agents on the Life Programmable Interface.**
 
-The LPI (Life Programmable Interface) is an open MCP server that exposes the [SMILE methodology](https://lifeatlas.online) — a benefits-driven digital twin implementation framework. This repo is your sandbox: a working MCP server with 7 read-only tools, real methodology data, and everything you need to build AI agents on top of it.
+The LPI is an open MCP server with 7 tools exposing the [SMILE methodology](https://lifeatlas.online) — a digital twin implementation framework. This repo is your sandbox AND the entry point for the **LifeAtlas Contributor Program**.
 
-This repo also serves as the entry point for the **LifeAtlas Contributor Program**. Read on for the screening challenge and how the program works.
+---
 
-### Key Concepts (read this first)
+## How It Works (read this first)
 
-- **MCP (Model Context Protocol)** — a standard way for AI agents to call tools. Think of it as a USB cable between your agent and data sources. Your agent sends a request, the MCP server sends back structured data.
-- **A2A (Agent-to-Agent Protocol)** — a way for agents to discover each other and describe what they can do. Think of it as a business card your agent publishes so other agents know how to work with it.
-- **LLM** — a Large Language Model (like ChatGPT, Claude, or open-source models you can run locally with Ollama).
-- **Ollama** — free software that lets you run AI models on your own laptop. No cloud, no API key, no cost.
+```
+┌─────────────────────────────────────────────────────────┐
+│  1. FORK this repo                                      │
+│  2. CLONE your fork locally                             │
+│  3. RUN: npm install && npm run test-client              │
+│  4. DO the challenge for your level (see below)         │
+│  5. SUBMIT a Pull Request back to this repo             │
+│  6. BOT auto-validates → auto-merges (Level 1)         │
+│     or auto-scores → posts feedback (Level 2/3)        │
+│  7. LEADERBOARD updates automatically                   │
+│     → life-atlas.github.io/lpi-developer-kit            │
+└─────────────────────────────────────────────────────────┘
+```
+
+**Where do I submit?** → Pull Request to this repo. That's it.
+**Who reviews?** → GitHub Actions bot (auto). Team leads review top submissions manually.
+**How do I know what to do?** → Pick your track below. Each level has exact instructions.
+**What if I'm stuck?** → Open an issue on this repo or ask in the Teams channel.
+
+### Key Concepts
+
+- **MCP** — a standard way for AI agents to call tools. Your agent sends a request, the server sends back data.
+- **A2A** — a protocol for agents to discover each other and describe their capabilities.
+- **LLM** — a Large Language Model (ChatGPT, Claude, or local models via Ollama).
+- **Ollama** — free software to run AI models on your laptop. No cloud, no API key, no cost.
 - **SMILE** — our methodology for building digital twins. The LPI server contains all the knowledge about it.
 
 ---
@@ -175,42 +196,36 @@ Capture the output showing all 7 tools pass. Then pick your track:
 
 **Level 2** (30-60 min): Run the LPI sandbox (above). Try to make it fail. Send unexpected inputs, long queries, special characters. Document everything — what broke, what didn't, what error messages you got. Submit as a bug report.
 
-**Level 3** (2-4 hours): Write a security audit report (OWASP-style) of the LPI sandbox server. Check for: injection vectors, information disclosure, denial of service, error handling leaks. Even finding nothing is valuable if your methodology is sound. Submit in `submissions/your-name/`.
+**Level 3** (2-4 hours): We have planted **at least 5 intentional security vulnerabilities** in `examples/vulnerable-api.py`. Run it locally (`pip install flask && python examples/vulnerable-api.py`) and write a security audit report:
+- Find as many vulnerabilities as you can
+- Classify each one (OWASP category)
+- Explain the impact (what could an attacker do?)
+- Propose a fix for each
+
+Also audit the LPI sandbox server itself (`src/`) for any real issues. Even finding nothing is valuable if your methodology is sound. Submit in `submissions/your-name/`.
 
 ---
 
 **Submit all Level 2/3 work as PRs.** Title: `level-2: Your Name` or `level-3: Your Name`
 
-### Level 3 — Build Your First Agent (2-4 hours)
+**Required for all Level 2/3 submissions:** Include a `HOW_I_DID_IT.md` in your submission folder. Write in your own words:
+- What you did, step by step
+- What problems you hit and how you solved them
+- What you learned that you didn't know before
 
-Build an AI agent that connects to the LPI sandbox and does something useful with the data.
+This is not optional. We read these to understand how you think. AI-generated write-ups are easy to spot and will count against you. Write like you're explaining it to a teammate, not a professor.
 
-**Your agent must:**
+### Track A: Level 3 — Detailed Agent Requirements
+
+For Track A specifically, your agent must:
 1. Accept a user question or input
 2. Query at least 2 LPI tools to get relevant knowledge
-3. Process the results — summarize, analyze, combine, visualize, or reason over them
-4. Return a response that **cites which LPI tools and data it used** — this is explainable AI: the user can trace where every part of the answer came from
+3. Process the results — summarize, analyze, combine, or visualize
+4. **Cite which LPI tools and data it used** — explainable AI means the user traces every part of the answer
 
-**Use any approach:**
-- **Raw Python** — call the MCP server via subprocess + JSON-RPC (see `examples/agent.py`)
-- **LangGraph** — build a multi-step agent workflow with tool nodes
-- **CrewAI** — create role-based agents that collaborate
-- **LangChain** — use their MCP integration
-- **Any LLM** — local (Ollama), cloud (OpenAI, Anthropic, Google), or none at all (pure logic agent)
-- **No LLM is fine** — an agent that calls LPI tools and produces a structured report WITHOUT an LLM is a valid submission. The skill is in the tool orchestration and output quality, not in having a chatbot wrapper.
+Use any approach: raw Python, LangGraph, CrewAI, LangChain, any LLM (local or cloud), or no LLM at all. A working example is in `examples/agent.py`.
 
-**Bonus points for:**
-- **Security hardening** — input validation, prompt injection defense, error handling that doesn't leak internals
-- **Multi-step workflows** — agents that chain multiple tool calls based on intermediate results
-- **Novel output formats** — dashboards, comparison tables, decision trees, visualizations — not just text
-
-A working example is in `examples/agent.py` — use it as a starting point or build from scratch.
-
-**Submit:** Create your agent as a **separate GitHub repo** (not a PR to this one). Add a link to it in `submissions/your-name/level3.md` along with:
-- What your agent does (2-3 sentences)
-- Which LPI tools it uses and why
-- How to run it (setup instructions that actually work — test them yourself)
-- A sample interaction showing the explainability (which sources the answer came from)
+Submit as a **separate GitHub repo** with a link in `submissions/your-name/level3.md`.
 
 PR title: `level-3: Your Name`
 

@@ -1,4 +1,4 @@
-*How I did it*
+How I did it
 
 For this part I ran the vulnerable API locally in the sandbox and tested the endpoints manually.
 
